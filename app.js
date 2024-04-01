@@ -31,15 +31,17 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+//Route and Error Handlers
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/expenses", authenticateUser, expenseRouter);
 // app.use("/api/v1/populate", popRoute);
 app.use(notFoundMiddleWare);
 app.use(errorHandlerMiddleware);
 
+//Connection to the database and spin up server.
 const start = async () => {
   console.log(`Starting application...\nConnecting to database...`);
-  await connectDB(process.env.MONGO_URI, "Expenzza");
+  await connectDB(process.env.MONGO_URI, process.env.DB_NAME);
   console.log("Connection successful");
 
   console.log("Spinning up server...");
